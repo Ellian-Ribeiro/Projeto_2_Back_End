@@ -1,0 +1,101 @@
+<%- include('partials/header') %>
+
+<h1>Gerenciar Produtos</h1>
+
+<section class="card">
+    <h2>Novo Produto (POST)</h2>
+    <form action="/produtos" method="POST" class="form-grid">
+        <div class="form-group">
+            <label for="nome">Nome do Produto *</label>
+            <input type="text" id="nome" name="nome" placeholder="Ex: Smartphone X">
+        </div>
+
+        <div class="form-group">
+            <label for="preco">Preço (R$) *</label>
+            <input type="text" id="preco" name="preco" placeholder="Ex: 2500.00">
+        </div>
+
+        <div class="form-group">
+            <label for="categoriaId">Categoria *</label>
+            <select id="categoriaId" name="categoriaId">
+                <option value="">-- Selecione uma categoria --</option>
+                <% categorias.forEach(c => { %>
+                    <option value="<%= c._id %>"><%= c.nome %></option>
+                <% }) %>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="vendedorId">Vendedor</label>
+            <select id="vendedorId" name="vendedorId">
+                <option value="">-- Selecione um vendedor (opcional) --</option>
+                <% vendedores.forEach(v => { %>
+                    <option value="<%= v._id %>"><%= v.nome %></option>
+                <% }) %>
+            </select>
+        </div>
+
+        <div class="form-group full-width">
+            <label for="descricao">Descrição</label>
+            <input type="text" id="descricao" name="descricao" placeholder="Detalhes adicionais do produto">
+        </div>
+
+        <div class="full-width">
+            <button type="submit" class="btn btn-primary">Cadastrar Produto</button>
+        </div>
+    </form>
+</section>
+
+<section class="card">
+    <h2>Consultar e Filtrar Produtos (GET)</h2>
+    <form action="/produtos" method="GET" class="search-bar">
+        <input type="text" name="busca" value="<%= busca %>" placeholder="Buscar por nome ou descrição...">
+        <select name="categoriaId">
+            <option value="">Todas as categorias</option>
+            <% categorias.forEach(c => { %>
+                <option value="<%= c._id %>" <%= categoriaSelecionada === c._id.toString() ? 'selected' : '' %>>
+                    <%= c.nome %>
+                </option>
+            <% }) %>
+        </select>
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+        <a href="/produtos" class="btn btn-secondary">Limpar</a>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Preço</th>
+                <th>Categoria</th>
+                <th>Vendedor</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (produtos.length === 0) { %>
+                <tr>
+                    <td colspan="5">Nenhum produto encontrado.</td>
+                </tr>
+            <% } else { %>
+                <% produtos.forEach(p => { %>
+                    <tr>
+                        <td><strong><%= p.nome %></strong></td>
+                        <td>R$ <%= Number(p.preco).toFixed(2) %></td>
+                        <td><%= p.categoriaNome %></td>
+                        <td><%= p.vendedorNome %></td>
+                        <td class="table-actions">
+                            <a href="/produtos/<%= p._id %>" class="btn btn-secondary btn-sm">Detalhes / Editar</a>
+                            <form action="/produtos/excluir" method="POST" class="inline-form">
+                                <input type="hidden" name="id" value="<%= p._id %>">
+                                <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            <% } %>
+        </tbody>
+    </table>
+</section>
+
+<%- include('partials/footer') %>

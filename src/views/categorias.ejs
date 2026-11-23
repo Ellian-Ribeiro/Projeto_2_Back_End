@@ -1,0 +1,75 @@
+<%- include('partials/header') %>
+
+<h1>Gerenciar Categorias</h1>
+
+<div class="grid-2">
+    <section class="card">
+        <h2><%= categoriaEmEdicao ? 'Atualizar Categoria' : 'Nova Categoria' %></h2>
+        <form action="<%= categoriaEmEdicao ? '/categorias/atualizar' : '/categorias' %>" method="POST" class="form-stack">
+            <% if (categoriaEmEdicao) { %>
+                <input type="hidden" name="id" value="<%= categoriaEmEdicao._id %>">
+            <% } %>
+
+            <div class="form-group">
+                <label for="nome">Nome *</label>
+                <input type="text" id="nome" name="nome" value="<%= categoriaEmEdicao ? categoriaEmEdicao.nome : '' %>" placeholder="Ex: Eletrônicos">
+            </div>
+
+            <div class="form-group">
+                <label for="descricao">Descrição</label>
+                <textarea id="descricao" name="descricao" rows="3" placeholder="Descrição da categoria"><%= categoriaEmEdicao ? (categoriaEmEdicao.descricao || '') : '' %></textarea>
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">
+                    <%= categoriaEmEdicao ? 'Salvar Alterações' : 'Cadastrar Categoria' %>
+                </button>
+                <% if (categoriaEmEdicao) { %>
+                    <a href="/categorias" class="btn btn-secondary">Cancelar</a>
+                <% } %>
+            </div>
+        </form>
+    </section>
+
+    <section class="card">
+        <h2>Buscar Categorias (GET)</h2>
+        <form action="/categorias" method="GET" class="search-bar">
+            <input type="text" name="busca" value="<%= busca %>" placeholder="Pesquisar por nome ou descrição...">
+            <button type="submit" class="btn btn-primary">Buscar</button>
+            <a href="/categorias" class="btn btn-secondary">Limpar</a>
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (categorias.length === 0) { %>
+                    <tr>
+                        <td colspan="3">Nenhuma categoria encontrada.</td>
+                    </tr>
+                <% } else { %>
+                    <% categorias.forEach(c => { %>
+                        <tr>
+                            <td><strong><%= c.nome %></strong></td>
+                            <td><%= c.descricao || '-' %></td>
+                            <td class="table-actions">
+                                <a href="/categorias/<%= c._id %>" class="btn btn-secondary btn-sm">Editar</a>
+                                <form action="/categorias/excluir" method="POST" class="inline-form">
+                                    <input type="hidden" name="id" value="<%= c._id %>">
+                                    <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                <% } %>
+            </tbody>
+        </table>
+    </section>
+</div>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= titulo %> | E-commerce PW2</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container nav-content">
+            <a href="/" class="brand">E-commerce PW2</a>
+            <nav class="nav-links">
+                <% if (usuario) { %>
+                    <a href="/produtos">Produtos</a>
+                    <a href="/categorias">Categorias</a>
+                    <a href="/vendedores">Vendedores</a>
+                    <span class="user-badge">Olá, <%= usuario.nome %></span>
+                    <form action="/auth/logout" method="POST" class="inline-form">
+                        <button type="submit" class="btn btn-danger btn-sm">Sair</button>
+                    </form>
+                <% } else { %>
+                    <a href="/auth/login">Login</a>
+                    <a href="/auth/register">Criar Conta</a>
+                <% } %>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <% if (mensagemSucesso) { %>
+            <div class="alert alert-success"><%= mensagemSucesso %></div>
+        <% } %>
+
+        <% if (mensagemErro) { %>
+            <div class="alert alert-error"><%= mensagemErro %></div>
+        <% } %>
+
+        <% if (typeof erro !== 'undefined' && erro) { %>
+            <div class="alert alert-error"><%= erro %></div>
+        <% } %>

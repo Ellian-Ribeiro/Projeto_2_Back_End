@@ -1,0 +1,22 @@
+<%- include('partials/header') %>
+
+<section class="card hero">
+    <h1>Sistema de Gestão de E-commerce</h1>
+    <p>Aplicação Web desenvolvida com Node.js, Express.js, MongoDB Driver, arquitetura MVC e autenticação por sessões.</p>
+
+    <% if (usuario) { %>
+        <div class="actions">
+            <a href="/produtos" class="btn btn-primary">Gerenciar Produtos</a>
+            <a href="/categorias" class="btn btn-secondary">Gerenciar Categorias</a>
+            <a href="/vendedores" class="btn btn-secondary">Gerenciar Vendedores</a>
+        </div>
+    <% } else { %>
+        <p>Faça login para acessar as funcionalidades protegidas de cadastro, consulta, atualização e exclusão.</p>
+        <div class="actions">
+            <a href="/auth/login" class="btn btn-primary">Fazer Login</a>
+            <a href="/auth/register" class="btn btn-secondary">Criar Nova Conta</a>
+        </div>
+    <% } %>
+</section>
+
+<%- include('partials/footer') %>
