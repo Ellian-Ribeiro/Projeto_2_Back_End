@@ -1,0 +1,19 @@
+{
+  "name": "projeto2-ecommerce-web",
+  "version": "2.0.0",
+  "description": "Projeto 2 - Programação Web Back-End (Express.js, MVC, MongoDB e Sessões)",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "mongodb": "^6.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
