@@ -37,6 +37,9 @@ Aplicação Web Back-End construída com **Node.js**, **Express.js**, **EJS** (t
 - `public/css/style.css`: folha de estilos da aplicação.
 - `logs/errors.log`: histórico de erros registrados pela aplicação.
 
+## 📁 Estrutura do Projeto
+
+```text
 projeto2/
 ├── src/
 │   ├── database/
@@ -81,6 +84,8 @@ projeto2/
 ├── app.js
 ├── package.json
 └── README.md
+```
+
 
 ## Dependências Necessárias
 - Node.js (v18 ou superior)
