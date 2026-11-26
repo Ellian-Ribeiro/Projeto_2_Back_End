@@ -86,16 +86,75 @@ projeto2/
 └── README.md
 ```
 
+## 📦 Dependências Necessárias
+- **Node.js** (v18 ou superior — testado no Node.js v24.11.1)
+- **MongoDB Community Server** (em execução local na porta padrão `27017`)
+- **Dependências do projeto (`package.json`):** `express`, `express-session`, `ejs`, `mongodb` e `nodemon` (devDependency).
 
-## Dependências Necessárias
-- Node.js (v18 ou superior)
-- MongoDB Community Server (em execução local na porta padrão `27017`)
-- Pacotes declarados no `package.json`: `express`, `express-session`, `ejs`, `mongodb` e `nodemon` (dev).
+---
 
-## Configuração do MongoDB
-Certifique-se de que o serviço do MongoDB esteja rodando localmente em `mongodb://127.0.0.1:27017`. A aplicação utiliza o banco `ecommerce_pw1` (criado automaticamente ao inserir os dados, mantendo continuidade com o Projeto 1). Caso deseje alterar a URI ou o nome do banco, defina as variáveis de ambiente `MONGO_URI` e `MONGO_DB`.
+## 🛠️ Configuração do MongoDB
+1. Certifique-se de que o serviço do **MongoDB** esteja em execução localmente em `mongodb://127.0.0.1:27017`.
+2. A aplicação utiliza o banco de dados **`ecommerce_pw1`** (criado automaticamente ao inserir os dados, mantendo continuidade com o Projeto 1).
+3. *(Opcional)* Caso deseje alterar a URI ou o nome do banco, configure as variáveis de ambiente `MONGO_URI` e `MONGO_DB`.
 
-## Instalação e Execução
-1. Instale as dependências no diretório raiz do projeto:
+---
+
+## 🚀 Instalação e Execução
+
+1. Acesse o diretório raiz do projeto (`projeto2/`) e instale as dependências:
    ```bash
    npm install
+   ```
+
+2. Inicie o servidor:
+   ```bash
+   # Execução padrão (node app.js)
+   npm start
+
+   # Ou execução em modo desenvolvimento (nodemon app.js)
+   npm run dev
+   ```
+
+3. Ao iniciar com sucesso, o terminal exibirá:
+   ```text
+   Usuário padrão criado: admin@ecommerce.com / 123456
+   Servidor E-commerce PW2 rodando em http://localhost:3000
+   ```
+
+4. Acesse no navegador: **`http://localhost:3000`**
+
+---
+
+## 🧪 Orientações para Testar as Rotas e Funcionalidades
+
+| Recurso | Método / Rota | Como Testar |
+| :--- | :--- | :--- |
+| **Página Inicial** | `GET /` | Acesse a raiz da aplicação para navegar entre os módulos. |
+| **Categorias** | `GET /categorias` | Cadastre, edite e exclua categorias (recomenda-se cadastrar antes de criar produtos). |
+| **Vendedores** | `GET /vendedores` | Cadastre, edite e exclua vendedores informando nome, e-mail válido e documento. |
+| **Produtos (CRUD)** | `GET /produtos` | Cadastre produtos vinculando uma categoria e um vendedor existentes; teste edição e exclusão. |
+| **Busca e Filtro** | `GET /produtos?busca=...` | Utilize os campos de busca por nome ou filtro por categoria na listagem de produtos. |
+| **Detalhe do Produto** | `GET /produtos/:id` | Clique em um produto da lista para visualizar seus dados completos. |
+| **Validações e Logs** | `POST` / `GET` inválido | Tente cadastrar preço negativo, e-mail inválido ou acessar `/produtos/id-invalido` e verifique o registro gravado em `logs/errors.log`. |
+
+---
+
+## 🔐 Instruções para Testar o Login e Funcionalidades Protegidas
+
+1. **Bloqueio de Acesso Sem Autenticação:**
+   - Sem estar logado, tente acessar diretamente uma rota protegida pelo `authMiddleware.js` (ex.: `http://localhost:3000/produtos`).
+   - **Resultado esperado:** registro da tentativa em `logs/errors.log` e redirecionamento automático para `/auth/login` com mensagem de erro.
+
+2. **Login com o Usuário Padrão (criado automaticamente na primeira execução):**
+   - Acesse `http://localhost:3000/auth/login` e utilize as credenciais iniciais:
+     - **E-mail:** `admin@ecommerce.com`
+     - **Senha:** `123456`
+
+3. **Cadastro de Novo Usuário:**
+   - Acesse `http://localhost:3000/auth/register`, informe **Nome**, **E-mail** e **Senha** e envie o formulário (`POST /auth/register`).
+   - Em seguida, realize o login em `http://localhost:3000/auth/login` com o novo usuário criado.
+
+4. **Encerramento de Sessão (Logout):**
+   - Clique no botão **Sair** na barra de navegação (`POST /auth/logout`).
+   - **Resultado esperado:** encerramento da sessão ativa no servidor e bloqueio imediato das rotas protegidas.
